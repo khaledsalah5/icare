@@ -40,12 +40,12 @@ class _EditeDoctorState extends State<EditeDoctor> {
                 SizedBox(width: 50,),
                 Column(
                   children: [
-                    Text('doctor',style: TextStyle(
+                    Text('Doctor',style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),),
                     SizedBox(height: 20,),
-                    Text('nurs',style: TextStyle(
+                    Text('Nurse',style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),),
@@ -115,7 +115,7 @@ class _EditeDoctorState extends State<EditeDoctor> {
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'specialization',
+                        hintText: 'Specialization',
                         hintStyle: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

@@ -46,7 +46,7 @@ color: Colors.blue,
           backgroundImage: AssetImage('assets/dector.png'),
         ),
         Container(
-          child: Text('welcome',style: TextStyle(
+          child: Text('Welcome',style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
           ),),
@@ -56,7 +56,7 @@ color: Colors.blue,
           child: TextFormField(
             decoration: InputDecoration(
 
-              labelText: 'User Name',
+              labelText: 'Username',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -69,7 +69,7 @@ color: Colors.blue,
           child: TextFormField(
             decoration: InputDecoration(
 
-              labelText: 'PassWord',
+              labelText: 'Password',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
