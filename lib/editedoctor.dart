@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const List<Widget> job = <Widget>[Text('Doctor'), Text('Nurse')];
@@ -20,7 +20,7 @@ class _EditeDoctorState extends State<EditeDoctor> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(1000, 21, 186, 217),
         centerTitle: true,
-        title: Text("I care"),
+        title: Text("I Care"),
       ),
       body: SingleChildScrollView(
         child: Center(

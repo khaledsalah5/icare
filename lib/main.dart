@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:medicen/home.dart';
 import 'package:icare/myLogin.dart';
 //import 'admin_panel.dart';
-
+import 'package:icare/screens/login_screen.dart';
 //import 'pages/welcome_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 //import 'pages/main_page.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyLogin(),
+      home:  LoginScreen(),
     );
   }
 }

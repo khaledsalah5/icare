@@ -205,7 +205,7 @@ class _EditorPageState extends State<EditorPage> {
                             backgroundColor: Colors.white,
                             title: Text(
                               'Are you sure?',
-                              style: GoogleFonts.pacifico(
+                              style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 30,
                                   shadows: [

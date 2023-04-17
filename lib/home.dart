@@ -1,7 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:icare/note.dart';
+//import 'package:icare/note.dart';
 import 'package:icare/pages/main_page.dart';
 import 'package:icare/room2.dart';
 
