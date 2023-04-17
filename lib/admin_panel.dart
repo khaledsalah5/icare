@@ -13,8 +13,8 @@ class _AdminPanelState extends State<AdminPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
+      //backgroundColor: Colors.blue,
+      appBar: AppBar(backgroundColor: Color.fromARGB(1000, 21, 186, 217),centerTitle: true,title: Text("I care"),
         elevation: 0,
       ),
       body: Column(
@@ -24,16 +24,16 @@ class _AdminPanelState extends State<AdminPanel> {
             fontWeight: FontWeight.bold,
             fontSize: 25,
           ),),
-          SizedBox(height: 50,),
+          SizedBox(height: 100,),
           Container(
             width: 300,
 
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
+              color: Colors.grey[400],
             ),
 
-            child: IconButton(onPressed: (){}, icon: Text('add new user ',style: TextStyle(
+            child: IconButton(onPressed: (){}, icon: Text('Add New User',style: TextStyle(fontSize: 20,
                 color: Colors.black
             ),)),
           ),
@@ -43,10 +43,11 @@ class _AdminPanelState extends State<AdminPanel> {
 
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
+              color: Colors.grey[400],
+              
             ),
 
-            child: IconButton(onPressed: (){}, icon: Text('add new user ',style: TextStyle(
+            child: IconButton(onPressed: (){}, icon: Text('Edit Current User ',style: TextStyle(fontSize: 20,
                 color: Colors.black
             ),)),
           )

@@ -1,8 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medicen/note.dart';
-import 'package:medicen/room2.dart';
+import 'package:icare/note.dart';
+import 'package:icare/pages/main_page.dart';
+import 'package:icare/room2.dart';
 
 import 'admin_panel.dart';
 
@@ -11,6 +12,8 @@ class MyHome extends StatefulWidget {
 
   @override
   State<MyHome> createState() => _MyHomeState();
+  
+  void onStartButtonPressed() {}
 }
 
 class _MyHomeState extends State<MyHome> {
@@ -28,7 +31,7 @@ class _MyHomeState extends State<MyHome> {
 elevation: 0,
      ),
       drawer: Container(
-        color: Colors.blue,
+        color: Color.fromARGB(255, 21, 186, 217),
         child: Drawer(
           width: double.infinity,
           child: Column(
@@ -88,6 +91,7 @@ elevation: 0,
 
               ListTile(
                 title: Text('Edit Password'),leading: Icon(Icons.lock),onTap: (){
+                
                 //  navigateTo(context, TwittersettingScreen());
               },
 
@@ -99,7 +103,7 @@ elevation: 0,
               ),
               ListTile(
                 title: Text('Note'),leading: Icon(Icons.person),onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Note()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MainPage()));
               },
 
 
