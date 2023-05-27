@@ -8,15 +8,25 @@ class UserDataScreen extends StatelessWidget {
   final String userName;
   final String email;
   final String gender;
-  final String status;
+  final String address;
+  final String phone_number;
+  final String password;
+  final String Specialization;
+  final String age;
+  final String job;
   final int id;
 
   UserDataScreen(
       {required this.userName,
       required this.email,
       required this.gender,
-      required this.status,
-      required this.id});
+      required this.id,
+      required this.job,
+      required this.address,
+      required this.phone_number,
+      required this.age,
+      required this.password,
+      required this.Specialization});
 
   Future<String?> _showAlertDialog(
       BuildContext context, String userName, int id) async {
@@ -61,8 +71,8 @@ class UserDataScreen extends StatelessWidget {
 
   Future<void> deleteUser(int id) async {
     var headers = {'Authorization': 'Bearer $accessToken'};
-    var request = http.Request(
-        'DELETE', Uri.parse('https://gorest.co.in/public/v2/users/$id'));
+    var request = http.Request('DELETE',
+        Uri.parse('http://belalatef.pythonanywhere.com/User/delete/$id'));
     request.body = '''''';
     request.headers.addAll(headers);
 
@@ -132,7 +142,7 @@ class UserDataScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Status:  ',
+                  'Job:  ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -141,11 +151,11 @@ class UserDataScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  status,
+                  job,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
-                    color: (status == 'active') ? Colors.green : Colors.red,
+                    color: (job == 'Doctor') ? Colors.green : Color.fromARGB(255, 11, 142, 120),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -167,19 +177,25 @@ class UserDataScreen extends StatelessWidget {
               color: Colors.green,
               onPressed: () async {
                 print('Modify button pressed');
-                final result = await Navigator.push(
+                await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => AddModifyUserScreen(
-                      name: userName,
-                      email: email,
-                      gender: gender,
-                      //status: status,
-                      id: id,
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (context) {
+                    print('id $id');
+
+                    return AddModifyUserScreen(
+                      userName,
+                      email,
+                      id,
+                      gender,
+                      job,
+                      phone_number,
+                      address,
+                      password,
+                      Specialization,
+                      age,
+                    );
+                  }),
                 );
-                Navigator.pop(context, result);
               },
               title: 'Modify User',
             ),

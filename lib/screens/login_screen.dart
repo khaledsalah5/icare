@@ -1,175 +1,241 @@
+
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:icare/components/rounded_button.dart';
-import 'constants.dart';
+import 'package:icare/components/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:icare/room_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:icare/screens/users_screen.dart';
-
-import 'package:icare/editedoctor.dart';
-import 'package:icare/home.dart';
+import '../model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+
 class _LoginScreenState extends State<LoginScreen> {
-  String enteredUserName = '';
+  String enteredEmail = '';
   String enteredPassword = '';
   bool showSpinner = false;
+
+  late User data;
+
+  Future<int> _login() async {
+    int ret = 0;
+
+    if (enteredEmail.isEmpty || enteredPassword.isEmpty) {
+      print('Please enter username and password');
+      return 0;
+    }
+
+    LoginCredentials credentials =
+        LoginCredentials(enteredEmail, enteredPassword);
+    var url =
+        Uri.parse('https://belalatef.pythonanywhere.com/User/login/token');
+    var headers = {'Content-Type': 'application/json'};
+    var body = json.encode(credentials.toJson());
+
+    try {
+      var response = await http.post(url, headers: headers, body: body);
+      ret = response.statusCode;
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+
+        
+        // Login successful
+        var responseData = json.decode(response.body);
+
+        print(responseData);
+
+         data = User.fromJson(json.decode(response.body)['user']);
+        //var authToken = responseData['access'];
+        //print(authToken);
+        // Do something with the received token
+      } else {
+        // Login failed
+        print('Login failed');
+      }
+    } catch (e) {
+      // Error occurred
+      print('Error: $e');
+    }
+    return ret;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: const Color(0xffF2F2F2),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Stack(
               children: [
                 Container(
                   height: 80,
                   width: 80,
-                  color: Color.fromARGB(255, 21, 186, 217),
+                  color: Color.fromARGB(255, 19, 166, 192),
                 ),
                 ClipOval(
-// clipper: MyClipper(),
                   child: Container(
                     height: 180,
                     width: 180,
-                    color: Color.fromARGB(255, 21, 186, 217),
+                    color: Color.fromARGB(255, 19, 166, 192),
                   ),
                 ),
               ],
             ),
-          ModalProgressHUD(
-            inAsyncCall: showSpinner,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage('assets/images/doctor.png'),
-                  ),
-                  Container(
-                  child: Text(
-                    'Welcome',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+            SizedBox(
+              height: 30,
+            ),
+            ModalProgressHUD(
+              inAsyncCall: showSpinner,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+                      radius: 90,
+                      backgroundImage:
+                          AssetImage('assets/icons/ic_launcher.png'),
                     ),
-                  ),
-                ),
-                  const SizedBox(
-                    height: 48.0,
-                  ),
-
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.text,
-                          onChanged: (value) {
-                            enteredUserName = value;
-                          },
-                          decoration: kTextFieldDecoration.copyWith(
-                                                  labelText: 'Email',
-                            hintText: 'Enter your Username',
-                             border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                          ),
+                    Container(
+                      child: Text(
+                        'Welcome',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
                         ),
-                                          const SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      enteredPassword = value;
-                    },
-                    decoration: kTextFieldDecoration.copyWith(
-                      labelText: 'Password',
-                      hintText: 'Enter your password.',
-                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24.0,
-                  ),
-                  RoundedButton(
-                    color: const Color.fromARGB(1000, 21, 186, 217),
-                    onPressed: () {
-                      if (enteredPassword == 'admin' &&
-                          enteredUserName == 'admin') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => UsersScreen()));
-                      } else {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MyHome()));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(milliseconds: 2000),
-                            content: Text(
-                              'Invalid Details!',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.0,
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (value) {
+                              enteredEmail = value;
+                            },
+                            decoration: kTextFieldDecoration.copyWith(
+                              labelText: 'Email',
+                              hintText: 'Enter Your Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            backgroundColor: Color(0xffCDBE78),
                           ),
-                        );
-                      }
-                    },
-                    title: 'Log In',
-                  )
-                      
-                     ,Container(
-                  width: 200,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Text(
-                        'forget password?',
-                        style: TextStyle(color: Colors.blue),
-                      )),
-                ),
-                OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditeDoctor()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        )),
-                    child: const Text('Register',style: TextStyle(color: Color.fromARGB(1000, 21, 186, 217)),))
-                      ],
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          TextFormField(
+                            obscureText: true,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {
+                              enteredPassword = value;
+                            },
+                            decoration: kTextFieldDecoration.copyWith(
+                              labelText: 'Password',
+                              hintText: 'Enter your password.',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24.0,
+                          ),
+                          RoundedButton(
+                            color: const Color.fromARGB(255, 19, 166, 192),
+                            onPressed: () async {
+                              {
+                                if (enteredEmail == 'admin' &&
+                                    enteredPassword == 'admin') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UsersScreen()));
+                                }
+                                else {
+                                if (enteredEmail != '' &&
+                                    enteredPassword != '') {
+                                  int statusCode = await _login();
+                                  if (statusCode == 200) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                roomScreen(user1: data,)));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        duration: Duration(milliseconds: 2000),
+                                        content: Text(
+                                          'Logined Successfully !',
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        duration: Duration(milliseconds: 2000),
+                                        content: Text(
+                                          'Something went wrong, Please try again!',
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.redAccent,
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Duration(milliseconds: 2000),
+                                      content: Text(
+                                        'Fill all the details!',
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                      backgroundColor: Color(0xff066163),
+                                    ),
+                                  );
+                                }
+                                }
+                              }
+                            },
+                            title: 'Log In',
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

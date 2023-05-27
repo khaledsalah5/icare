@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_this
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'notes_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -77,7 +77,7 @@ class _EditorPageState extends State<EditorPage> {
                     backgroundColor: Colors.white,
                     title: Text(
                       'Are you sure?',
-                      style: GoogleFonts.pacifico(
+                      style: TextStyle(
                           color: Colors.black,
                           fontSize: 30,
                           shadows: [
@@ -158,7 +158,7 @@ class _EditorPageState extends State<EditorPage> {
               padding: EdgeInsets.all(20),
               child: TextField(
                 controller: _contentController,
-                style: GoogleFonts.aBeeZee(fontSize: 20),
+                //style: GoogleFonts.aBeeZee(fontSize: 20),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     counterText: '',
@@ -301,7 +301,7 @@ class _EditorPageState extends State<EditorPage> {
               ],
               title: TextField(
                 controller: _titleController,
-                style: GoogleFonts.pacifico(
+                style: TextStyle(
                     fontSize: 25,
                     color: Colors.black,
                     shadows: [

@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 
 class NoteMini extends StatefulWidget {
   const NoteMini({Key? key, required this.title, required this.content})
@@ -32,7 +32,7 @@ class _NoteMiniState extends State<NoteMini> {
             padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
             child: Text(widget.title,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.pacifico(color: Colors.black, fontSize: 15)),
+                style: TextStyle(color: Colors.black, fontSize: 15)),
           ),
         ),
         Expanded(
@@ -45,7 +45,7 @@ class _NoteMiniState extends State<NoteMini> {
             child: Text(widget.content,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
-                style: GoogleFonts.aBeeZee(
+                style: TextStyle(
                     color: Colors.black, fontSize: 15, height: 1)),
           ),
         )

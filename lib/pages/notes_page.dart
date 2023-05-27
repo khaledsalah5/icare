@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_this
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:icare/editedoctor.dart';
 import 'editor_page.dart';
 import 'note_mini.dart';
 import 'package:page_transition/page_transition.dart';
@@ -15,6 +13,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
+
   final _notesBox = Hive.box('notes');
 
   @override
@@ -30,7 +29,7 @@ class _NotesPageState extends State<NotesPage> {
               padding: const EdgeInsets.only(bottom: 12.0),
               child: Text(
                 'Swipe to change page',
-                style: GoogleFonts.pacifico(
+                style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     shadows: [
@@ -46,12 +45,12 @@ class _NotesPageState extends State<NotesPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading:IconButton(icon:Icon(Icons.arrow_back),color: Colors.black ,onPressed: () {
-          builder: (context) => EditeDoctor();
+          Navigator.of(context).pop();
         },),
         centerTitle: true,
         title: Text(
           'Your notes',
-          style: GoogleFonts.pacifico(
+          style: TextStyle(
               color: Colors.black,
               fontSize: 30,
               shadows: [Shadow(color: Color.fromARGB(255, 21, 186, 217), offset: Offset(2, 2))]),
