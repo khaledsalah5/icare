@@ -38,11 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # Load the google fonts package
-  google_fonts: ^3.0.1
+  # google_fonts: ^3.0.1
 
   # Load the page transition package
   page_transition: ^2.0.9
-
+  
+  syncfusion_flutter_charts: ^19.2.47
   # Load the hive packages
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -51,7 +52,7 @@ dependencies:
   #cupertino_icons: ^1.0.2
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   http: ^0.13.4
-  dia: ^0.1.5
+  # dia: ^0.1.5
 
 
 

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,7 +14,6 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
   String enteredEmail = '';
   String enteredPassword = '';
@@ -25,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<int> _login() async {
     int ret = 0;
-
     if (enteredEmail.isEmpty || enteredPassword.isEmpty) {
       print('Please enter username and password');
       return 0;
@@ -41,20 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       var response = await http.post(url, headers: headers, body: body);
       ret = response.statusCode;
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
-
-        
         // Login successful
         var responseData = json.decode(response.body);
-
         print(responseData);
-
-         data = User.fromJson(json.decode(response.body)['user']);
-        //var authToken = responseData['access'];
-        //print(authToken);
-        // Do something with the received token
+        data = User.fromJson(json.decode(response.body)['user']);
       } else {
         // Login failed
         print('Login failed');
@@ -90,14 +79,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             SizedBox(
-              height: 30,
+              height: 15,
             ),
             ModalProgressHUD(
               inAsyncCall: showSpinner,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircleAvatar(
                       backgroundColor: const Color.fromARGB(0, 255, 255, 255),
@@ -105,17 +93,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundImage:
                           AssetImage('assets/icons/ic_launcher.png'),
                     ),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Container(
                       child: Text(
-                        'Welcome',
+                        'Welcome to Icare Smart System'.toUpperCase(),
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 20.0,
+                      height: 30.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -127,8 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onChanged: (value) {
                               enteredEmail = value;
                             },
+                            autofocus: true,
                             decoration: kTextFieldDecoration.copyWith(
-                              labelText: 'Email',
+                              labelText: 'User/Admin',
                               hintText: 'Enter Your Email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -165,63 +157,67 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => UsersScreen()));
-                                }
-                                else {
-                                if (enteredEmail != '' &&
-                                    enteredPassword != '') {
-                                  int statusCode = await _login();
-                                  if (statusCode == 200) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                roomScreen(user1: data,)));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        duration: Duration(milliseconds: 2000),
-                                        content: Text(
-                                          'Logined Successfully !',
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15.0,
+                                } else {
+                                  if (enteredEmail != '' &&
+                                      enteredPassword != '') {
+                                    int statusCode = await _login();
+                                    if (statusCode == 200) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => roomScreen(
+                                                    user1: data,
+                                                  )));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          duration:
+                                              Duration(milliseconds: 2000),
+                                          content: Text(
+                                            'Logined Successfully !',
+                                            style: TextStyle(
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.0,
+                                            ),
                                           ),
+                                          backgroundColor: Colors.green,
                                         ),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          duration:
+                                              Duration(milliseconds: 2000),
+                                          content: Text(
+                                            'Something went wrong, Please try again!',
+                                            style: TextStyle(
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.0,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.redAccent,
+                                        ),
+                                      );
+                                    }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         duration: Duration(milliseconds: 2000),
                                         content: Text(
-                                          'Something went wrong, Please try again!',
+                                          'Fill all the details!',
                                           style: TextStyle(
                                             color: Colors.black54,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15.0,
                                           ),
                                         ),
-                                        backgroundColor: Colors.redAccent,
+                                        backgroundColor: Color(0xff066163),
                                       ),
                                     );
                                   }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      duration: Duration(milliseconds: 2000),
-                                      content: Text(
-                                        'Fill all the details!',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                      backgroundColor: Color(0xff066163),
-                                    ),
-                                  );
-                                }
                                 }
                               }
                             },

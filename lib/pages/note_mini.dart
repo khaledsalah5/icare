@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
+
 
 class NoteMini extends StatefulWidget {
   const NoteMini({Key? key, required this.title, required this.content})
@@ -28,7 +28,6 @@ class _NoteMiniState extends State<NoteMini> {
           child: Container(
             alignment: Alignment.centerLeft,
             color: Color.fromARGB(255,49,204,211),
-            //color: Colors.amber.shade400,
             padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
             child: Text(widget.title,
                 overflow: TextOverflow.ellipsis,

@@ -56,3 +56,8 @@ class User {
     );
   }
 }
+
+late String PatientName = 'Mohamed Ali';
+late String PatientAge = '25';
+late String PatientNum = '01055555555';
+late String PatientGender = 'Male';

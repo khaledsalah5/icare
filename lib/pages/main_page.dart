@@ -2,7 +2,6 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'notes_page.dart';
-//import 'welcome_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -28,10 +27,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: NotesPage()
-      
-       //WelcomePage( onStartButtonPressed: () {goToNotesPage(this.widget, context);}, ),
-    );
+          );
   }
 }

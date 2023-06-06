@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_this
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'notes_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -81,7 +80,9 @@ class _EditorPageState extends State<EditorPage> {
                           color: Colors.black,
                           fontSize: 30,
                           shadows: [
-                            Shadow(color: Color.fromARGB(255, 21, 186, 217), offset: Offset(2, 2))
+                            Shadow(
+                                color: Color.fromARGB(255, 21, 186, 217),
+                                offset: Offset(2, 2))
                           ]),
                     ),
                     actions: <Widget>[
@@ -90,8 +91,8 @@ class _EditorPageState extends State<EditorPage> {
                         children: [
                           ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Color.fromARGB(255, 21, 186, 217))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 21, 186, 217))),
                             child: Icon(
                               Icons.check,
                               color: Colors.white,
@@ -119,8 +120,8 @@ class _EditorPageState extends State<EditorPage> {
                           SizedBox(width: 10),
                           ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Color.fromARGB(255, 21, 186, 217))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 21, 186, 217))),
                             child: Icon(
                               Icons.cancel_outlined,
                               color: Colors.white,
@@ -158,11 +159,10 @@ class _EditorPageState extends State<EditorPage> {
               padding: EdgeInsets.all(20),
               child: TextField(
                 controller: _contentController,
-                //style: GoogleFonts.aBeeZee(fontSize: 20),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     counterText: '',
-                    hintText: 'Write your note here!'),
+                    hintText: 'Write note here!'),
                 expands: true,
                 maxLines: null,
                 minLines: null,
@@ -210,7 +210,8 @@ class _EditorPageState extends State<EditorPage> {
                                   fontSize: 30,
                                   shadows: [
                                     Shadow(
-                                        color: Color.fromARGB(255, 21, 186, 217),
+                                        color:
+                                            Color.fromARGB(255, 21, 186, 217),
                                         offset: Offset(2, 2))
                                   ]),
                             ),
@@ -222,7 +223,8 @@ class _EditorPageState extends State<EditorPage> {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                Color.fromARGB(255, 21, 186, 217))),
+                                                Color.fromARGB(
+                                                    255, 21, 186, 217))),
                                     child: Icon(
                                       Icons.check,
                                       color: Colors.white,
@@ -254,7 +256,8 @@ class _EditorPageState extends State<EditorPage> {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(
-                                                Color.fromARGB(255, 21, 186, 217))),
+                                                Color.fromARGB(
+                                                    255, 21, 186, 217))),
                                     child: Icon(
                                       Icons.cancel_outlined,
                                       color: Colors.white,
@@ -301,14 +304,14 @@ class _EditorPageState extends State<EditorPage> {
               ],
               title: TextField(
                 controller: _titleController,
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    shadows: [
-                      Shadow(color: Color.fromARGB(255, 21, 186, 217), offset: Offset(1, 1))
-                    ]),
+                style: TextStyle(fontSize: 25, color: Colors.black, shadows: [
+                  Shadow(
+                      color: Color.fromARGB(255, 21, 186, 217),
+                      offset: Offset(1, 1))
+                ]),
                 decoration: InputDecoration(
-                    hintStyle: TextStyle (fontFamily: 'Pacifico',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Pacifico',
                       fontSize: 25,
                     ),
                     hintText: 'New Note'),

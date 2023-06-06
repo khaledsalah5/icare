@@ -91,7 +91,7 @@ Future<int> modifyUser() async {
   return response.statusCode;
 }
 
-class AddModifyUserScreen extends StatelessWidget {
+class AddModifyUserScreen extends StatefulWidget {
   AddModifyUserScreen(name, email, id, gender, job, phone_number, address,
       password, Specialization, age,
       {isUser1 = false}) {
@@ -106,224 +106,265 @@ class AddModifyUserScreen extends StatelessWidget {
     Specialization1 = Specialization;
     age1 = age;
     isUser = isUser1;
-    print("AddMOD");
     willAdd = name.isEmpty;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AddmodUser(),
-    );
-  }
+  State<AddModifyUserScreen> createState() => _AddModifyUserScreenState();
 }
 
-class AddmodUser extends StatefulWidget {
-  const AddmodUser({Key? key}) : super(key: key);
-
-  @override
-  State<AddmodUser> createState() => _AddmodUserState();
-}
-
-class _AddmodUserState extends State<AddmodUser> {
+class _AddModifyUserScreenState extends State<AddModifyUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(30.0),
-          decoration: const BoxDecoration(
-            color: Color(0xffF2F2F2),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Text(
-                  willAdd ? 'Add User' : 'Modify User',
-                  style: const TextStyle(
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff383838),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(30.0),
+            decoration: const BoxDecoration(
+              color: Color(0xffF2F2F2),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: Text(
+                    willAdd ? 'Add User' : 'Modify User',
+                    style: const TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff383838),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Center(
-                child: ToggleButtons(
-                  onPressed: (int index) {
-                    setState(() {
-                      for (int i = 0; i < _selectedjob.length; i++) {
-                        _selectedjob[i] = i == index;
-                      }
-                    });
-                    index == 0 ? job1 = 'Doctor' : job1 = 'Nurse';
-                    print(job1);
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                  child: ToggleButtons(
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int i = 0; i < _selectedjob.length; i++) {
+                          _selectedjob[i] = i == index;
+                        }
+                      });
+                      index == 0 ? job1 = 'Doctor' : job1 = 'Nurse';
+                    },
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    selectedBorderColor: Color(0xff066163),
+                    selectedColor: Color.fromARGB(255, 129, 67, 67),
+                    fillColor: Color.fromARGB(200, 49, 204, 211),
+                    color: Colors.grey[700],
+                    constraints: const BoxConstraints(
+                      minHeight: 45.0,
+                      minWidth: 100.0,
+                    ),
+                    isSelected: _selectedjob,
+                    children: jobs,
+                  ),
+                ),
+                Center(
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    elevation: 16,
+                    style: const TextStyle(color: Color(0xff066163)),
+                    underline: Container(
+                      height: 2,
+                      color: Color(0xff066163),
+                    ),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                        gender1 = value;
+                      });
+                    },
+                    items: list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: name1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: name1),
+                  onChanged: (value) {
+                    name1 = value;
                   },
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  selectedBorderColor: Color(0xff066163),
-                  selectedColor: Color.fromARGB(255, 129, 67, 67),
-                  fillColor: Color.fromARGB(200, 49, 204, 211),
-                  color: Colors.grey[700],
-                  constraints: const BoxConstraints(
-                    minHeight: 45.0,
-                    minWidth: 100.0,
-                  ),
-                  isSelected: _selectedjob,
-                  children: jobs,
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'Enter name.*'),
                 ),
-              ),
-              Center(
-                child: DropdownButton<String>(
-                  value: dropdownValue,
-                  elevation: 16,
-                  style: const TextStyle(color: Color(0xff066163)),
-                  underline: Container(
-                    height: 2,
-                    color: Color(0xff066163),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      dropdownValue = value!;
-                      gender1 = value;
-                      print(gender1);
-                    });
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: email1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: email1),
+                  onChanged: (value) {
+                    email1 = value;
                   },
-                  items: list.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'Enter email.*'),
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: name1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: name1),
-                onChanged: (value) {
-                  name1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter name.*'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: email1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: email1),
-                onChanged: (value) {
-                  email1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter email.*'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  age1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter age.'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: Specialization1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: Specialization1),
-                onChanged: (value) {
-                  Specialization1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: (job1 == 'Doctor'
-                        ? 'Enter Spcialization.'
-                        : 'Enter Department.')),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: phone_number1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: phone_number1),
-                onChanged: (value) {
-                  phone_number1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter phone number.'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: password1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: password1),
-                onChanged: (value) {
-                  password1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter password.*'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                controller: address1.isEmpty
-                    ? TextEditingController()
-                    : TextEditingController(text: address1),
-                onChanged: (value) {
-                  address1 = value;
-                },
-                autofocus: true,
-                textAlign: TextAlign.center,
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter address.'),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              RoundedButton(
-                color: const Color(0xff066163),
-                onPressed: () async {
-                  if (willAdd) {
-                    if (email1 != '' &&
-                        name1 != '' &&
-                        password1 != '' &&
-                        job1 != '') {
-                      int statusCode = await addUser();
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    age1 = value;
+                  },
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'Enter age.'),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: Specialization1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: Specialization1),
+                  onChanged: (value) {
+                    Specialization1 = value;
+                  },
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: (job1 == 'Doctor'
+                          ? 'Enter Spcialization.'
+                          : 'Enter Department.')),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: phone_number1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: phone_number1),
+                  onChanged: (value) {
+                    phone_number1 = value;
+                  },
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter phone number.'),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: password1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: password1),
+                  onChanged: (value) {
+                    password1 = value;
+                  },
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter password.*'),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  controller: address1.isEmpty
+                      ? TextEditingController()
+                      : TextEditingController(text: address1),
+                  onChanged: (value) {
+                    address1 = value;
+                  },
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'Enter address.'),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                RoundedButton(
+                  color: const Color(0xff066163),
+                  onPressed: () async {
+                    if (willAdd) {
+                      if (email1 != '' &&
+                          name1 != '' &&
+                          password1 != '' &&
+                          job1 != '') {
+                        int statusCode = await addUser();
 
+                        if (statusCode == 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              duration: Duration(milliseconds: 2000),
+                              content: Text(
+                                'User added successFully',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UsersScreen()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              duration: Duration(milliseconds: 2000),
+                              content: Text(
+                                'Something went wrong, Please try again!',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            duration: Duration(milliseconds: 2000),
+                            content: Text(
+                              'Fill all the details!',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            backgroundColor: Color(0xff066163),
+                          ),
+                        );
+                      }
+                    } else {
+                      int statusCode = await modifyUser();
                       if (statusCode == 200) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             duration: Duration(milliseconds: 2000),
                             content: Text(
-                              'User added successFully',
+                              'User Modified successFully',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
@@ -333,10 +374,17 @@ class _AddmodUserState extends State<AddmodUser> {
                             backgroundColor: Colors.green,
                           ),
                         );
-                                          Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => UsersScreen()),
-                    );  
+                        if (isUser)
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        else
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UsersScreen()),
+                          );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -353,92 +401,39 @@ class _AddmodUserState extends State<AddmodUser> {
                           ),
                         );
                       }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(milliseconds: 2000),
-                          content: Text(
-                            'Fill all the details!',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          backgroundColor: Color(0xff066163),
-                        ),
-                      );
+                      if (isUser)
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      else
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UsersScreen()),
+                        );
                     }
-
-                  } else {
-                    int statusCode = await modifyUser();
-                    if (statusCode == 200) {
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(milliseconds: 2000),
-                          content: Text(
-                            'User Modified successFully',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          backgroundColor: Colors.green,
-                        ),
+                  },
+                  title: willAdd ? 'Add User' : 'Modify User',
+                ),
+                RoundedButton(
+                  color: const Color(0xff066163),
+                  onPressed: () {
+                    if (isUser)
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    else
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UsersScreen()),
                       );
-                                      if (isUser)
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  else      
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UsersScreen()),
-                  );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(milliseconds: 2000),
-                          content: Text(
-                            'Something went wrong, Please try again!',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          backgroundColor: Colors.redAccent,
-                        ),
-                      );
-                    }
-                  if (isUser)
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  else      
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UsersScreen()),
-                  );
-                  }
-                },
-                title: willAdd ? 'Add User' : 'Modify User',
-              ),
-              RoundedButton(
-                color: const Color(0xff066163),
-                onPressed: () {
-                  if (isUser)
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  else      
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UsersScreen()),
-                  );
-                },
-                title: 'Cancel',
-              ),
-            ],
+                  },
+                  title: 'Cancel',
+                ),
+              ],
+            ),
           ),
         ),
       ),
