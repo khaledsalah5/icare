@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:icare/bed_screen.dart';
 import 'package:icare/pages/main_page.dart';
 import 'package:icare/screens/add_modify_user_screen.dart';
-import 'model.dart';
+import 'components/model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:icare/room_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:icare/screens/users_screen.dart';
-import '../model.dart';
+import '../components/model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class LoginCredentials {
   final String email;
   final String password;
@@ -61,3 +63,33 @@ late String PatientName = 'Mohamed Ali';
 late String PatientAge = '25';
 late String PatientNum = '01055555555';
 late String PatientGender = 'Male';
+
+
+
+Widget iconData(String name, String value) {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Stack(alignment: Alignment.center, children: [
+      Container(
+        height: 52,
+        width: 52,
+        decoration: BoxDecoration(
+            color: Colors.black, borderRadius: BorderRadius.circular(15)),
+      ),
+      Container(
+        decoration: BoxDecoration(
+            color: Color.fromARGB(246, 255, 255, 255),
+            borderRadius: BorderRadius.circular(15)),
+        width: 50,
+        height: 50,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(name),
+            Text(value),
+          ],
+        ),
+      ),
+    ]),
+  );
+}
