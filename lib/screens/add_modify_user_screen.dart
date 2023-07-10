@@ -273,6 +273,7 @@ class _AddModifyUserScreenState extends State<AddModifyUserScreen> {
                     password1 = value;
                   },
                   autofocus: true,
+                  obscureText: true,
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
                       hintText: 'Enter password.*'),

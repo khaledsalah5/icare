@@ -59,9 +59,9 @@ class User {
   }
 }
 
-late String PatientName = 'Mohamed Ali';
-late String PatientAge = '25';
-late String PatientNum = '01055555555';
+late String PatientName = ' Mohamed Ali';
+late String PatientAge = ' 25';
+late String PatientNum = ' 01032901179';
 late String PatientGender = 'Male';
 
 

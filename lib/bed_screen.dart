@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'components/model.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class bedScreen extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class bedScreen extends StatefulWidget {
 
 class _MyScreenState extends State<bedScreen> {
   late Map SpO2data;
+  final player = AudioPlayer();
+ // int btValue = 42, ecgValue = 120, spo2Value = 99;
 
   late Map ECGdata;
   late String BPMValue = '0';
@@ -20,19 +23,19 @@ class _MyScreenState extends State<bedScreen> {
 
   late Map NIBPdata;
 
-  late String SpO2Value = '';
+  late String SpO2Value = '0';
 
-  late String HRVValue = '';
-  late String BTdata = '';
-  late String hr = '';
-  late String dbp = '';
-  late String sbp = '';
+  late String HRVValue = '0';
+  late String BTdata = '0';
+  late String hr = '0';
+  late String dbp = '0';
+  late String sbp = '0';
 
   static const int updatetime = 300;
 
   List<DataPoint> dataPoints = [];
   Timer? timer;
-  int maximumDataPoints = 20; // Maximum number of data points to display
+  int maximumDataPoints = 5000; // Maximum number of data points to display
 
   @override
   void initState() {
@@ -42,6 +45,7 @@ class _MyScreenState extends State<bedScreen> {
     //getECGData();
     gettBTData();
     getNIBPData();
+    //checkBluetoothValue();
 
     fetchData(); // Fetch initial data when the screen loads
     timer = Timer.periodic(Duration(milliseconds: updatetime),
@@ -58,7 +62,7 @@ class _MyScreenState extends State<bedScreen> {
     Timer.periodic(Duration(milliseconds: updatetime), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=SpO2'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=SpO2'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -67,6 +71,7 @@ class _MyScreenState extends State<bedScreen> {
         SpO2data = jsonDecode(respStr)["data"];
         SpO2Value = SpO2data['spO2'].toString();
         HRVValue = SpO2data['hrv'].toString();
+        checkBluetoothValue();
       });
 
       // print(SpO2data['spO2']); //spo2 value   //SpO2data['hrv']
@@ -77,7 +82,7 @@ class _MyScreenState extends State<bedScreen> {
     Timer.periodic(Duration(milliseconds: updatetime), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=BT'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=BT'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       final respStr = await response.stream.bytesToString();
@@ -114,7 +119,7 @@ class _MyScreenState extends State<bedScreen> {
     Timer.periodic(Duration(milliseconds: updatetime), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=NIBP'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=NIBP'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -124,6 +129,8 @@ class _MyScreenState extends State<bedScreen> {
         hr = NIBPdata['hr'].toString();
         sbp = NIBPdata['sbp'].toString();
         dbp = NIBPdata['dbp'].toString();
+
+        checkBluetoothValue();
       });
 
       //  print(NIBPdata['sbp']); //الضغط value  //NIBPdata['dbp']      NIBPdata['hr']
@@ -224,6 +231,7 @@ class _MyScreenState extends State<bedScreen> {
                                     InputDecoration(alignLabelWithHint: false),
                               ),
                             )),
+                        CheckboxExample()
                       ]),
                 )
               ],
@@ -233,11 +241,46 @@ class _MyScreenState extends State<bedScreen> {
       ),
     ));
   }
+
+  void checkBluetoothValue() {
+    if ((int.parse(BTdata) < 30 ||
+        int.parse(BTdata) > 38 ) && int.parse(BTdata) != 0
+
+        // ECGValue1> 130 ||
+        // ECGValue1 < 50 ||
+        // int.parse(SpO2Value) < 95
+        )
+         {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // Play sound when dialog is shown
+          player.play(AssetSource('sound/censor-beep-10sec-8113.mp3'));
+          return AlertDialog(
+            title: Text('Alert'),
+            content: Text(
+                'The values have dropped to BT: $BTdata ECG: $ECGValue1 SpO2: $SpO2Value !'),
+            actions: <Widget>[
+              MaterialButton(
+                child: Text('OK'),
+                onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return bedScreen();
+            }));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   Future<void> fetchData() async {
     Timer.periodic(Duration(milliseconds: updatetime), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=ECG'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=ECG'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -259,7 +302,6 @@ class _MyScreenState extends State<bedScreen> {
       }
     });
   }
-
 }
 
 class DataPoint {
@@ -283,11 +325,71 @@ Widget ECGChart(List<DataPoint> dataPoints1) {
         primaryYAxis: NumericAxis(
             axisLine: const AxisLine(width: 0),
             majorTickLines: const MajorTickLines(size: 0),
-            title: AxisTitle(text: 'Heart Rate'))
-
-            
-            ),
+            title: AxisTitle(text: 'Heart Rate'))),
   );
 }
 
 
+
+
+class CheckboxExample extends StatefulWidget {
+  const CheckboxExample({Key? key}) : super(key: key);
+
+  @override
+  _CheckboxExampleState createState() => _CheckboxExampleState();
+}
+
+class _CheckboxExampleState extends State<CheckboxExample> {
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+
+  @override
+  Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.red;
+    }
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              value: isChecked1,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked1 = value!;
+                });
+              },
+            ),
+            const Text('Medicine 1'),
+          ],
+        ),
+        Row(
+          children: [
+            Checkbox(
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              value: isChecked2,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked2 = value!;
+                });
+              },
+            ),
+            const Text('Medicine 2'),
+          ],
+        ),
+      ],
+    );
+  }
+}

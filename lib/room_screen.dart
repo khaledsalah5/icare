@@ -10,8 +10,11 @@ import 'dart:convert';
 
 late User user;
 
+
 class roomScreen extends StatefulWidget {
   roomScreen({required user1}) {
+    
+
     user = user1;
   }
 
@@ -30,7 +33,7 @@ class _roomScreenState extends State<roomScreen> {
     Timer.periodic(Duration(milliseconds: 300), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=BT'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=BT'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       final respStr = await response.stream.bytesToString();
@@ -44,7 +47,7 @@ class _roomScreenState extends State<roomScreen> {
     Timer.periodic(Duration(milliseconds: 300), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=SpO2'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=SpO2'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       final respStr = await response.stream.bytesToString();
@@ -60,7 +63,7 @@ class _roomScreenState extends State<roomScreen> {
     Timer.periodic(Duration(milliseconds: 300), (timer) async {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('GET',
-          Uri.parse('http://10.23.246.243/api/DisplaySensorValue?sensor=ECG'));
+          Uri.parse('http://10.23.247.22/api/DisplaySensorValue?sensor=ECG'));
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
